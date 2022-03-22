@@ -2,7 +2,7 @@ const router = require("express").Router();
 
 const md = require("./accounts-middleware");
 
-const Account = require("./accounts-model.js");
+const Account = require("./accounts-model");
 
 router.get("/", async (req, res, next) => {
   try {
