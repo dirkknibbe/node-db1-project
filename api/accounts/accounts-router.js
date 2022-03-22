@@ -21,26 +21,18 @@ router.post(
   "/",
   md.checkAccountPayload,
   md.checkAccountNameUnique,
-  (req, res, next) => {
+  async (req, res, next) => {
     // DO YOUR MAGIC
     try {
-      res.json("post account");
+      const newAccount = await Account.create(req.body);
+      res.status(201).json(newAccount);
     } catch (err) {
       next(err);
     }
   }
 );
 
-router.put("/:id", md.checkAccountId, (req, res, next) => {
-  // DO YOUR MAGIC
-  try {
-    res.json("update account by id");
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.delete(
+router.put(
   "/:id",
   md.checkAccountId,
   md.checkAccountPayload,
@@ -48,12 +40,22 @@ router.delete(
   (req, res, next) => {
     // DO YOUR MAGIC
     try {
-      res.json("delete account by id");
+      res.json("update account by id");
     } catch (err) {
       next(err);
     }
   }
 );
+
+router.delete("/:id", md.checkAccountId, async (req, res, next) => {
+  // DO YOUR MAGIC
+  try {
+    await Account.deleteById(req.params.id);
+    res.json(req.account);
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.use((err, req, res, next) => {
   // eslint-disable-line
